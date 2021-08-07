@@ -113,23 +113,42 @@ ezdata.linkedList = function () {
         if(lastNode) return lastNode;
         return undefined;
     }
-    list.indexOf = function(item){
-        
+    /**
+     * 
+     * @param {*} val 
+     * @returns if found, return the pos, if not, return -1
+     */
+    list.indexOf = function(val){
+        let current = firstNode, result = 0;
+        while(current){
+            if(val === current.val){
+                return result;
+            }
+            result++;
+            current = current.next;
+        }
+        return -1;
     }
     /**
      * 
-     * @param {*} item 
+     * @param {*} val 
      * @return {Boolean} 
      */
-    list.has = function(item){
-
+    list.has = function(val){
+        let current = firstNode;
+        while(current){
+            if(val === current.val) return true;
+            current = current.next;
+        }
+        return false;
     }
     /**
      * 
      * @param {*} item 
      */
     list.remove = function(item){
-
+        if(!list.has(item)) return false;
+        
     }
 
     return list;
