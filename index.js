@@ -2,6 +2,7 @@
  * This project's purpose is to learn how to realize data structures
  * This project is not using Class, this is considering the compatibility before ES6
  * Reference repo: https://github.com/mauriciosantos/Buckets-JS
+ * Only support CommonJS environment, like Node.js
  */
 "use strict";
 /**top level name space 
@@ -145,19 +146,73 @@ ezdata.linkedList = function () {
         return false;
     }
     /**
-     * 
+     * Pass a function, execute the function on each node
+     * @param {function(Object)} callback 
+     */
+    list.forEach = function(callback){
+        let current = firstNode;
+        while(current){
+            if(!callback(current.val)) break;
+            current = current.next;
+        }
+    }
+    /**
+     * remove a designated item from the list 
      * @param {*} item 
+     * @return {Boolean} whether the operation success or not
      */
     list.remove = function (item) {
         if (!list.has(item)) return false;
-        let current = firstNode, prev;
-        while (current !== undefined) {
-            if (current.val === target) {
-
+        let current = firstNode, prev = undefined;
+        while (current) {
+            if (current.val === item) {
+                //for list has 1 element
+                if(current === firstNode){
+                    firstNode = firstNode.next;
+                    if(current === lastNode){
+                        lastNode = null;
+                    }
+                }else if(current = lastNode){
+                    lastNode = prev;
+                    prev.next = current.next;
+                    current.next = null;
+                }else{
+                    prev.next = current.next;
+                    current.next = null;
+                }
+                size--;
+                return true;
+            }
+            prev = current;
+            current = current.next;
+        }
+        return false;
+    }
+    /**
+     * 
+     * @param {Number} index | if number is a negative number, count backwards
+     * @returns 
+     */
+    list.removeAt = function (index) {
+        if(index > size || typeof index !== "number") return false;
+        if(index < 0){
+            if(Math.abs(index) > size){
+                return false;
+            }else{
+                index = size - index;
             }
         }
-        prev = current;
-        current = current.next;
+        let prev, counter = 0, current = firstNode;
+        while(current){
+            if(counter === index){
+                prev.next = current.next;
+                current.next = null;
+                return true;
+            }
+            prev = current;
+            counter++;
+        }
+        return false;
     }
     /**
      * 
@@ -165,10 +220,6 @@ ezdata.linkedList = function () {
      */
     list.isEmpty = function () {
         return Boolean(size);
-    }
-
-    list.reverse = function(){
-            
     }
     /**
      * clear the list
