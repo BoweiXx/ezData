@@ -1,5 +1,6 @@
 /**
  * This project's purpose is to learn how to realize data structures
+ * This project is not using Class, this is considering the compatibility before ES6
  * Reference repo: https://github.com/mauriciosantos/Buckets-JS
  */
 "use strict";
@@ -45,6 +46,7 @@ ezdata.linkedList = function () {
      * @exports list 
      * @private
      */
+    //list is a container for all the methods
     let list = {},
         size = 0,
         firstNode = undefined,
@@ -77,19 +79,19 @@ ezdata.linkedList = function () {
      * @param {Number} pos 
      * @return {Boolean} true if the element is added, false if it is not
      */
-    list.add = function(val, pos) {
+    list.add = function (val, pos) {
         if (typeof pos !== "number" || pos < 0 || pos >= size) return false;
         let node = new Node(val, undefined);
-        if (size === 0) { 
-            firstNode = node; 
-            lastNode = node 
-        }else if(index === size){
+        if (size === 0) {
+            firstNode = node;
+            lastNode = node
+        } else if (index === size) {
             lastNode.next = node;
             lastNode = node;
-        }else if(index === 0){
+        } else if (index === 0) {
             node.next = firstNode;
             firstNode = node;
-        }else{
+        } else {
             let prevNode = nodeAt(pos);
             node.next = prevNode.next;
             prevNode.next = node
@@ -101,16 +103,16 @@ ezdata.linkedList = function () {
      * 
      * @returns first node of the list
      */
-    list.first = function(){
-        if(firstNode) return firstNode;
+    list.first = function () {
+        if (firstNode) return firstNode;
         return undefined;
     }
     /**
      * 
      * @returns last node of the list
      */
-    list.last = function(){
-        if(lastNode) return lastNode;
+    list.last = function () {
+        if (lastNode) return lastNode;
         return undefined;
     }
     /**
@@ -118,10 +120,10 @@ ezdata.linkedList = function () {
      * @param {*} val 
      * @returns if found, return the pos, if not, return -1
      */
-    list.indexOf = function(val){
+    list.indexOf = function (val) {
         let current = firstNode, result = 0;
-        while(current){
-            if(val === current.val){
+        while (current) {
+            if (val === current.val) {
                 return result;
             }
             result++;
@@ -134,10 +136,10 @@ ezdata.linkedList = function () {
      * @param {*} val 
      * @return {Boolean} 
      */
-    list.has = function(val){
+    list.has = function (val) {
         let current = firstNode;
-        while(current){
-            if(val === current.val) return true;
+        while (current) {
+            if (val === current.val) return true;
             current = current.next;
         }
         return false;
@@ -146,14 +148,51 @@ ezdata.linkedList = function () {
      * 
      * @param {*} item 
      */
-    list.remove = function(item){
-        if(!list.has(item)) return false;
-        
+    list.remove = function (item) {
+        if (!list.has(item)) return false;
+        let current = firstNode, prev;
+        while (current !== undefined) {
+            if (current.val === target) {
+
+            }
+        }
+        prev = current;
+        current = current.next;
+    }
+    /**
+     * 
+     * @returns Boolean whether the list is empty
+     */
+    list.isEmpty = function () {
+        return Boolean(size);
     }
 
+    list.reverse = function(){
+            
+    }
+    /**
+     * clear the list
+     */
+    list.clear = function () {
+        firstNode = undefined, lastNode = undefined, size = 0;
+    }
+    /**
+     * Convert the linked list to an array, with given order of elements
+     * @returns {Array}
+     */
+    list.toArray = function () {
+        if (size = 0) return [];
+        let current = firstNode, converted = [];
+        while (current) {
+            converted.unshift(current.val);
+            current = current.next;
+        }
+        return converted;
+    }
     return list;
 };
 
 /**
  *
  */
+module.exports = ezdata;
