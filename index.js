@@ -47,7 +47,7 @@
      * @class basic linked list
      * @constructor
      */
-    ezdata.linkedList = function () {
+    ezdata.LinkedList = function () {
         /**
          * @exports list as ezdata().linkedList();
          * @private
@@ -260,6 +260,33 @@
         }
         return list;
     };
+    /**Creates an empty queue
+     * @class
+     * @constructor
+     */
+    ezdata.Queue = function(){
+        /**
+         * @exports a q object as ezdata.Queue
+         * @private
+         */
+        let q = {},
+        firstNode = undefined,
+        lastNode = undefined,
+        size = 0;
+        /**
+         * @constructor Creates an empty node
+         * @private
+         */
+        let Node = function(val){
+            this.val = val;
+            this.pos;
+        }
+
+
+
+        return q;
+    }
+
     return ezdata;
 })
 
