@@ -86,7 +86,7 @@
          * @return {Boolean} true if the element is added, false if it is not
          */
         list.add = function (val, pos) {
-            if(pos === undefined) pos = size;
+            if (pos === undefined) pos = size;
             if (typeof pos !== "number" || pos < 0 || pos > size) return false;
             let node = new Node(val, undefined);
             if (size === 0) {
@@ -202,7 +202,7 @@
         /**
          * 
          * @param {Number} index | if number is a negative number, count backwards
-         * @returns 
+         * @returns Boolean Whether the removal is successful
          */
         list.removeAt = function (index) {
             if (index > size || typeof index !== "number") return false;
@@ -261,27 +261,84 @@
         return list;
     };
     /**Creates an empty queue
+     * NOTE: should I use array? No, use object instead;
      * @class
      * @constructor
      */
-    ezdata.Queue = function(){
+    ezdata.Queue = function () {
         /**
          * @exports a q object as ezdata.Queue
          * @private
          */
         let q = {},
-        firstNode = undefined,
-        lastNode = undefined,
-        size = 0;
+            firstNode = undefined,
+            lastNode = undefined,
+            size = 0;
         /**
          * @constructor Creates an empty node
          * @private
          */
-        let Node = function(val){
+        let Node = function (val) {
             this.val = val;
-            this.pos;
+            // this.pos;
         }
-
+        /**
+         * The object for the queue, user can use ezdata.Queue().queue to inspect
+         */
+        q.queue = {};
+        /**
+         * Add an element at the end of the queue
+         * @param {*} val 
+         */
+        q.enqueue = function (val) {
+            let newNode = new Node(val);
+            if (size === 0) {
+                newNode.pos = 0;
+                firstNode = newNode;
+                lastNode = newNode;
+                q.queue[0] = newNode;
+                size++;
+                return true;
+            } else {
+                newNode.pos = size;
+                lastNode = newNode;
+                q.queue[size] = newNode;
+                size++;
+                return true;
+            }
+            return false;
+        }
+        /**
+         * Remove the first element of the queue;
+         * @returns Boolean Whether the operation is success
+         */
+        q.dequeue = function () {
+            if (size === 0) return false;
+            if (size === 1) {
+                q.clear();
+            } else {
+                //FIXME: Sthis will cause performance issue, need to redo
+                for (let i = 1; i < size; i++) {
+                    q.queue[i].pos -= 1;
+                    q.queue[i - 1] = q.queue[i];
+                    firstNode = q.queue[0];
+                };                
+                size--;
+                delete q.queue[size];
+                return true;
+            }
+        }
+        /**
+         * Clear the queue
+         * @returns Boolean Whether the operation is success
+         */
+        q.clear = function () {
+            q.queue = {};
+            firstNode = undefined;
+            lastNode = undefined;
+            size = 0;
+            return true;
+        }
 
 
         return q;
