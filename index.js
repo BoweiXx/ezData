@@ -153,15 +153,16 @@
             return false;
         }
         /**
-         * WARNING: DO NOT PASS IN ADD 
+         * WARNING: DO NOT PASS IN list.add 
          * Pass a function, execute the function on each node
          * @param {function(Object)} callback 
          */
         list.forEach = function (callback) {
             let current = firstNode;
-            
+            //safty check
+            let sizeCopy = size;
             while (current) {
-                if (!current.val) break;
+                if (!current.val || sizeCopy !== size) break;
                 callback(current.val);
                 current = current.next;
             }
