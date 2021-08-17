@@ -322,7 +322,7 @@
                     q.queue[i].pos -= 1;
                     q.queue[i - 1] = q.queue[i];
                     firstNode = q.queue[0];
-                };                
+                };
                 size--;
                 delete q.queue[size];
                 return true;
@@ -339,8 +339,18 @@
             size = 0;
             return true;
         }
-
-
+        /**
+         * Check the value of the head element in the queue
+         * @returns * value of the last element of the queue
+         */
+        q.peek = function () {
+            return firstNode.val;
+        }
+        q.size = function () {
+            return size;
+        }
+        q.has = function (item) {
+        }
         return q;
     }
 
