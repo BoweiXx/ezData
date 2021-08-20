@@ -285,7 +285,7 @@
         /**
          * The object for the queue, user can use ezdata.Queue().queue to inspect
          */
-        q.queue = {};
+        let queue = {};
         /**
          * Add an element at the end of the queue
          * @param {*} val 
@@ -296,13 +296,13 @@
                 newNode.pos = 0;
                 firstNode = newNode;
                 lastNode = newNode;
-                q.queue[0] = newNode;
+                queue[0] = newNode;
                 size++;
                 return true;
             } else {
                 newNode.pos = size;
                 lastNode = newNode;
-                q.queue[size] = newNode;
+                queue[size] = newNode;
                 size++;
                 return true;
             }
@@ -317,14 +317,14 @@
             if (size === 1) {
                 q.clear();
             } else {
-                //FIXME: Sthis will cause performance issue, need to redo
+                //NOTE: this operation is slow, but it will make the search process faster
                 for (let i = 1; i < size; i++) {
-                    q.queue[i].pos -= 1;
-                    q.queue[i - 1] = q.queue[i];
-                    firstNode = q.queue[0];
+                    queue[i].pos -= 1;
+                    queue[i - 1] = queue[i];
+                    firstNode = queue[0];
                 };
                 size--;
-                delete q.queue[size];
+                delete queue[size];
                 return true;
             }
         }
@@ -333,7 +333,7 @@
          * @returns Boolean Whether the operation is success
          */
         q.clear = function () {
-            q.queue = {};
+            queue = {};
             firstNode = undefined;
             lastNode = undefined;
             size = 0;
@@ -346,14 +346,82 @@
         q.peek = function () {
             return firstNode.val;
         }
+        /**
+         * 
+         * @returns Number size of the queue
+         */
         q.size = function () {
             return size;
         }
+        /**
+         * 
+         * @returns Boolean whether the queue is empty
+         */
+        q.isEmpty = function(){
+            return !Boolean(size);
+        }
+        /**
+         * Turn the queue into an array
+         * @returns [*] Array of the values of the elements in the queue, with respect to the order
+         */
+        q.toArray = function(){
+            let temp = size;
+            let res = [];
+            while(size--){
+                res[size] = queue[size].val;
+            }
+            return res
+        }
+        /**
+         * Get the value of the element at certain position
+         * @param {Number} index 
+         * @returns * if index is valid
+         *          Boolean if index is invalid
+         */
+        q.elementAt = function(index){
+            if(typeof index === "number" && index < size && index > 0) return q.queue[index].val;
+            return false;
+        }
+        /**
+         * Check if the queue has an item with value 
+         * @param * item value of desire
+         * @returns Boolean
+         */
         q.has = function (item) {
+            let current = firstNode;
+            while (current) {
+                if (current.val === item) {
+                    return true;
+                }
+            }
+            return false;
         }
         return q;
     }
+    /**Creates an empty binary tree
+     * @class 
+     * @constructor
+     */
+    ezdata.BinTree = function(){
+        /**
+         * 
+         * @param * val value of this node 
+         * @param {*} left Pointer to its left child
+         * @param {*} right pointer to its right child
+         */
+        function Node(val, left, right){
+            this.val = val;
+            left? this.left = left: this.left = null;
+            right? this.right = right: this.right = null;
+        }
+    }
+    /**Creates an empty binary search tree
+     * @class
+     * @constructor
+     */
+    ezdata.BST = function(){
 
+    }
     return ezdata;
 })
 
